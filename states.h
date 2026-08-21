@@ -8,4 +8,6 @@ enum states {
     TWO_ROOTS
 };
 
-#endif /*STATES_H*/
+ #endif /* STATES_H*/
+
+
