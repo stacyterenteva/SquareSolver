@@ -6,22 +6,27 @@
 
 int main()
 {
+    struct test {
+    int* coeffs;
+    states state;
+    int* roots;
+};
 
     printf("¬ведите коэффициенты квадратного уравнени€ в следующем формате:\n");
     printf("a b c\n");
 
     double a = 0, b = 0, c = 0;
+    double d = 0;
     double solutions[2] = {};
     get_coeff(&a, &b, &c);
 
     ai_moment();
 
-    states state = solve_square_equation(solutions, a, b, c);
+    states state = solve_square_equation(solutions, a, b, c, &d);
 
     print_solutions(state, solutions);
 
-    if (!is_D_exact(a, b, c))
-        print_exact_solutions(a, b, c);
+    is_exact_solutions(a, b, c, d);
 
     return 0;
 }

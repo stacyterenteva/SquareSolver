@@ -3,8 +3,9 @@
 #include <math.h>
 #include <assert.h>
 
-states solve_square_equation(double solutions[], double a, double b, double c)
+states solve_square_equation(double solutions[], double a, double b, double c, double* d)
 {
+    assert(d);
     assert(finite(a));
     assert(finite(b));
     assert(finite(c));
@@ -12,16 +13,16 @@ states solve_square_equation(double solutions[], double a, double b, double c)
     if (is_zero(a))
         return solve_linear_equation(solutions, b, c);
 
-    double D = b * b - 4 * a * c;
-    if (D < 0)
+    *d = b * b - 4 * a * c;
+    if (*d < 0)
         return NO_ROOTS;
-    else if (is_zero(D)) {
+    else if (is_zero(*d)) {
         solutions[0] = -b / (2 * a);
         return ONE_ROOT;
     }
     else {
-       solutions[0] = (-b + sqrt(D)) / (2 * a);
-       solutions[1] = (-b - sqrt(D)) / (2 * a);
+       solutions[0] = (-b + sqrt(*d)) / (2 * a);
+       solutions[1] = (-b - sqrt(*d)) / (2 * a);
        return TWO_ROOTS;
     }
 }
@@ -45,12 +46,8 @@ states solve_linear_equation(double solutions[], double b, double c)
     }
 }
 
-double D(double a, double b, double c)
+double calculate_d(double a, double b, double c)
 {
     return b * b - 4 * a * c;
 }
 
-bool is_D_exact(double a, double b, double c)
-{
-    return is_zero(sqrt(D(a, b, c)) - ((int) sqrt(D(a, b, c))));
-}

@@ -68,11 +68,12 @@ void print_exact_solutions(double a, double b, double c)
     printf("Если вы хотите получить точное решение нажмите 1\n");
     printf("Если нет нажмите 2\n");
     int user_choice = 0;
-    getchar();
+    clean_buf();
     scanf("%d", &user_choice);
     switch(user_choice) {
         case WANT:
-            printf("(%g + sqrt(%g)) / (%g)", -b, D(a, b, c), 2 * a);
+            printf("(%g + sqrt(%g)) / %g\n", -b, calculate_d(a, b, c), 2 * a);
+            printf("(%g - sqrt(%g)) / %g\n", -b, calculate_d(a, b, c), 2 * a);
             break;
         case NO_WANT:
             printf("Cпасибо за использование нашей программы, хорошего дня");
@@ -115,6 +116,15 @@ void ai_moment() {
             printf("ERROR\n");
     }
 }
+
+void is_exact_solutions(double a, double b, double c, double d) {
+
+    if (d < 0)
+        printf("Корни данного уравнения комплексные\n");
+    else
+        if (!is_perfect_square(d))
+            print_exact_solutions(a, b, c);
+    }
 
 
 
