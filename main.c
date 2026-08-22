@@ -7,29 +7,45 @@
 #include "constants.h"
 #include "common_funcs.h"
 
-void is_exact_solutions(double a, double b, double c, double d);
-
 int main()
 {
-    printf("Введите коэффициенты квадратного уравнения в следующем формате:\n");
-    sleep(2);
-    printf("a b c\n");
-    sleep(2);
-
+    int flag = 0;
     double a = 0, b = 0, c = 0;
+    Parameters square_parameters = {a, b, c, 0, {NAN, NAN}};
+    printf("Наша программа работает в 2 режимах:\n");
+    printf("Научном(1) и учебном(2), чтобы выбрать режим нажмите соответствующую клавишу\n");
+    sleep(2);
+    scanf("%d", &flag);
+    clean_buf();
+    switch (flag) {
+        case SCIENCE: {
+            printf("Введите коэффициенты в следующем формате:\n");
+            sleep(2);
+            printf("a b c\n");
+            sleep(2);
 
-    get_coeffs(&a, &b, &c);
+            get_coeffs(&a, &b, &c);
 
-    parameters square_parameters = {a, b, c, 0, {NAN, NAN}};
+            States state = solve_square_equation(&square_parameters);
+            print_solutions(state, square_parameters.roots);
+            break;
+        }
+        case HELPER: {
+            printf("Введите коэффициенты в следующем формате:\n");
+            sleep(2);
+            printf("a b c\n");
+            sleep(2);
 
-    ai_moment();
+            get_coeffs(&a, &b, &c);
 
-    states state = solve_square_equation(&square_parameters);
-
-    print_solutions(state, square_parameters.roots);
-
-    bool is_exact_solution = is_exact_solutions(square_parameters.d);
-    print2_exact_solutions(square_parameters.a, square_parameters.b, square_parameters.c, square_parameters.d, is_exact_solution);
-
+            int exact_status = is_exact_solutions(square_parameters.d);
+            solve_square_equation(&square_parameters);
+            print_exact_solutions(exact_status, square_parameters);
+            break;
+        }
+        default:
+            printf("ОШИБКА\n");
+            break;
+    }
     return 0;
 }

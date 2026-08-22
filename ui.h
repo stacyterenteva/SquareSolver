@@ -5,9 +5,8 @@
 
 bool is_correct(int amt_coeff, double a, double b, double c);
 void get_coeffs(double* a, double* b, double* c);
-void print_solutions(states state, double solutions[]);
-void print_exact_solutions(double a, double b, double d);
+void print_solutions(States state, double solutions[]);
 void ai_moment();
-void print2_exact_solutions(double a, double b, double c, double d, bool is_exact_solution);
+void print_exact_solutions(int exact_status, Parameters square_parameters);
 
 #endif /* UI_H */

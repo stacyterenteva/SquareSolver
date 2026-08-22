@@ -10,7 +10,8 @@
 
 enum choices {
     WANT = 1,
-    NO_WANT = 2};
+    NO_WANT = 2
+};
 
 const int max_amt_coeff = 3;
 
@@ -43,7 +44,7 @@ void get_coeffs(double* a, double* b, double* c)
 
 
 
-void print_solutions(states state, double solutions[])
+void print_solutions(States state, double solutions[])
 {
     switch(state) {
             case NO_ROOTS:
@@ -70,37 +71,6 @@ void print_solutions(states state, double solutions[])
                 break;
         }
 }
-
-void print_exact_solutions(double a, double b, double d)
-{
-
-    printf("Полученное нами решение не совсем точное\n");
-    sleep(2);
-    printf("Если вы хотите получить точное решение нажмите 1\n");
-    sleep(2);
-    printf("Если нет нажмите 2\n");
-    sleep(2);
-    int user_choice = 0;
-    clean_buf();
-    scanf("%d", &user_choice);
-    switch(user_choice) {
-        case WANT:
-            printf("(%g + sqrt(%g)) / %g\n", -b, d, 2 * a);
-            sleep(2);
-            printf("(%g - sqrt(%g)) / %g\n", -b, d, 2 * a);
-            sleep(2);
-            break;
-        case NO_WANT:
-            printf("Cпасибо за использование нашей программы, хорошего дня\n");
-            sleep(2);
-            break;
-        default:
-            printf("Некорректный ввод\n");
-            sleep(2);
-            break;
-    }
-}
-
 
 void ai_moment() {
     int phrase_number = rand() % 8;
@@ -142,16 +112,29 @@ void ai_moment() {
     }
 }
 
-void print2_exact_solutions(double a, double b, double c, double d, bool is_exact_solution) {
-    if (!is_exact_solution) {
+void print_exact_solutions(int exact_status, Parameters square_parameters)
+{
+    if (square_parameters.d < 0) {
         printf("Корни данного уравнения комплексные\n");
-        sleep(2);
+        return;
     }
-    else {
-        if (!is_perfect_square(d))
-            print_exact_solutions(a, b, c);
+    switch(exact_status) {
+        case NOT_EXACT:
+            printf("(%g + sqrt(%g)) / %g\n", -square_parameters.b, square_parameters.d, 2 * square_parameters.a);
+            sleep(2);
+            printf("(%g - sqrt(%g)) / %g\n", -square_parameters.b, square_parameters.d, 2 * square_parameters.a);
+            sleep(2);
+            break;
+        case EXACT:
+            printf("%g\n", square_parameters.roots[0]);
+            sleep(2);
+            printf("%g\n", square_parameters.roots[1]);
+            sleep(2);
+            break;
+        default:
+            printf("Ошибка\n");
+            break;
     }
 }
-
 
 

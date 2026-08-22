@@ -3,6 +3,6 @@
 
 #include "../constants.h"
 
-bool is_completed(parameters test_parameters, int i);
+bool is_completed(Parameters test_parameters, int i);
 
 #endif

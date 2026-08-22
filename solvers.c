@@ -4,7 +4,7 @@
 #include "solvers.h"
 #include "common_funcs.h"
 
-states solve_square_equation(parameters* square_parameters)
+States solve_square_equation(Parameters* square_parameters)
 {
     assert(square_parameters);
 
@@ -12,8 +12,10 @@ states solve_square_equation(parameters* square_parameters)
         return solve_linear_equation(square_parameters);
 
     square_parameters->d = calculate_d(square_parameters);
-    if (square_parameters->d < 0)
+
+    if (square_parameters->d < 0) {
         return NO_ROOTS;
+    }
     else if (is_equal(square_parameters->d, 0)) {
         square_parameters->roots[0] = -square_parameters->b / (2 * square_parameters->a);
         return ONE_ROOT;
@@ -22,10 +24,10 @@ states solve_square_equation(parameters* square_parameters)
        square_parameters->roots[0] = (-square_parameters->b + sqrt(square_parameters->d)) / (2 * square_parameters->a);
        square_parameters->roots[1] = (-square_parameters->b - sqrt(square_parameters->d)) / (2 * square_parameters->a);
        return TWO_ROOTS;
-    }
+    } //TODO KOREN IZ 14 TIYZHELO BVRAT DVA RAZA
 }
 
-states solve_linear_equation(parameters* square_parameters)
+States solve_linear_equation(Parameters* square_parameters)
 {
     assert(finite(square_parameters->b));
     assert(finite(square_parameters->c));
@@ -44,17 +46,17 @@ states solve_linear_equation(parameters* square_parameters)
     }
 }
 
-double calculate_d(parameters* square_parameters)
+double calculate_d(Parameters* square_parameters)
 {
     return square_parameters->b * square_parameters->b - 4 * square_parameters->a * square_parameters->c;
 }
 
 bool is_exact_solutions(double d)
 {
-    if (d < 0) {
-        return false;
+    if (is_perfect_square(d)) {
+        return true;
     }
     else {
-        return true;
+        return false;
     }
 }

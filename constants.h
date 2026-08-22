@@ -1,19 +1,24 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-enum states {
+enum States {
     NO_ROOTS,
     ANY_ROOTS,
     ONE_ROOT,
     TWO_ROOTS
 };
 
-enum modes {
-    SCIENCE,
+enum Modes {
+    SCIENCE = 1,
     HELPER
 };
 
-struct parameters {
+enum Exactness {
+    NOT_EXACT,
+    EXACT
+};
+
+struct Parameters {
     double a; double b; double c;
     double d;
     double roots[2];
