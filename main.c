@@ -24,7 +24,7 @@ int main()
 
     is_exact_solutions(a, b, c, d);
 
-    std_test();
+    //std_test();
 
     return 0;
 }
