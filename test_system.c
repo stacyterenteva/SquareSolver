@@ -1,10 +1,12 @@
 #include <TXLib.h>
-#include "test_system.h"
 #include <math.h>
+#include <stdio.h>
+
+#include "test_system.h"
 #include "states.h"
 #include "common_funcs.h"
 #include "solvers.h"
-#include <stdio.h>
+
 
 bool is_completed(double* program_roots, double a, double b, double c, int i, double* d);
 const int amt_roots = 2;

@@ -1,9 +1,11 @@
 #include <stdio.h>
-#include "ui.h"
 #include <math.h>
 #include <assert.h>
-#include "common_funcs.h"
 #include <stdlib.h>
+#include <unistd.h>
+
+#include "ui.h"
+#include "common_funcs.h"
 #include "solvers.h"
 
 enum choices {
@@ -18,7 +20,7 @@ bool is_correct(int amt_coeff, double a, double b, double c)
     return !(amt_coeff < max_amt_coeff || !(finite(a) && finite(b) && finite(c)));
 }
 
-void get_coeff(double* a, double* b, double* c)
+void get_coeffs(double* a, double* b, double* c)
 {
     assert(a != NULL);
     assert(b != NULL);
@@ -76,7 +78,7 @@ void print_exact_solutions(double a, double b, double c)
             printf("(%g - sqrt(%g)) / %g\n", -b, calculate_d(a, b, c), 2 * a);
             break;
         case NO_WANT:
-            printf("Cпасибо за использование нашей программы, хорошего дня");
+            printf("Cпасибо за использование нашей программы, хорошего дня\n");
             break;
         default:
             printf("Некорректный ввод\n");
@@ -90,27 +92,35 @@ void ai_moment() {
     switch(phrase_number) {
         case 0:
             printf("Это очень красивые коэффициенты)\n");
+            sleep(5);
             break;
         case 1:
             printf("RTRTRTRTRTRTRT\n");
+            sleep(5);
             break;
         case 2:
             printf("Это очень красивые коэффициенты)\n");
+            sleep(5);
             break;
         case 3:
             printf("У вас определенно есть вкус в числах!\n");
+            sleep(5);
             break;
         case 4:
             printf("Сейчас решим это интереснейшее уравнение\n");
+            sleep(5);
             break;
         case 5:
             printf("У вас определенно есть вкус в числах!\n");
+            sleep(5);
             break;
         case 6:
             printf("Сейчас решим это интереснейшее уравнение\n");
+            sleep(5);
             break;
         case 7:
             printf("Это очень красивые коэффициенты)\n");
+            sleep(5);
             break;
         default:
             printf("ERROR\n");

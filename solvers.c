@@ -1,7 +1,9 @@
-#include "solvers.h"
-#include "common_funcs.h"
 #include <math.h>
 #include <assert.h>
+
+#include "solvers.h"
+#include "common_funcs.h"
+
 
 states solve_square_equation(double solutions[], double a, double b, double c, double* d)
 {

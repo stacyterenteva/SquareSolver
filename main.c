@@ -3,17 +3,10 @@
 
 #include "ui.h"
 #include "solvers.h"
-#include "common_funcs.h"
 #include "test_system.h"
 
 int main()
 {
-    struct test {
-    int* coeffs;
-    states state;
-    int* roots;
-};
-
     printf("¬ведите коэффициенты квадратного уравнени€ в следующем формате:\n");
     printf("a b c\n");
 
@@ -21,7 +14,7 @@ int main()
     double d = 0;
     double solutions[2] = {NAN, NAN};
 
-    get_coeff(&a, &b, &c);
+    get_coeffs(&a, &b, &c);
 
     ai_moment();
 
