@@ -26,6 +26,10 @@ int main()
 
             get_coeffs(&a, &b, &c);
 
+            square_parameters.a = a;
+            square_parameters.b = b;
+            square_parameters.c = c;
+
             States state = solve_square_equation(&square_parameters);
             print_solutions(state, square_parameters.roots);
             break;
@@ -38,9 +42,18 @@ int main()
 
             get_coeffs(&a, &b, &c);
 
+            square_parameters.a = a;
+            square_parameters.b = b;
+            square_parameters.c = c;
+
             int exact_status = is_exact_solutions(square_parameters.d);
-            solve_square_equation(&square_parameters);
-            print_exact_solutions(exact_status, square_parameters);
+            States state = solve_square_equation(&square_parameters);
+            if (state != TWO_ROOTS) {
+                print_solutions(state, square_parameters.roots);
+            }
+            else {
+                print_exact_solutions(exact_status, square_parameters);
+            }
             break;
         }
         default:
