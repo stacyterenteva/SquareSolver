@@ -18,6 +18,10 @@ enum Exactness {
     EXACT
 };
 
+enum Greeting {
+    BEGINING,
+    IN_MODE
+};
 struct Parameters {
     double a; double b; double c;
     double d;

@@ -112,27 +112,47 @@ void ai_moment() {
     }
 }
 
-void print_exact_solutions(int exact_status, Parameters square_parameters)
+void print_exact_solutions(States state, int exact_status, Parameters square_parameters)
 {
-    if (square_parameters.d < 0) {
-        printf("Корни данного уравнения комплексные\n");
-        return;
+    if (state != TWO_ROOTS) {
+                print_solutions(state, square_parameters.roots);
     }
-    switch(exact_status) {
-        case NOT_EXACT:
-            printf("(%g + sqrt(%g)) / %g\n", -square_parameters.b, square_parameters.d, 2 * square_parameters.a);
+    else {
+        switch(exact_status) {
+            case NOT_EXACT:
+                printf("(%g + sqrt(%g)) / %g\n", -square_parameters.b, square_parameters.d, 2 * square_parameters.a);
+                sleep(2);
+                printf("(%g - sqrt(%g)) / %g\n", -square_parameters.b, square_parameters.d, 2 * square_parameters.a);
+                sleep(2);
+             break;
+                case EXACT:
+                printf("%g\n", square_parameters.roots[0]);
+                sleep(2);
+                printf("%g\n", square_parameters.roots[1]);
+                sleep(2);
+                break;
+            default:
+                printf("Ошибка\n");
+                break;
+            }
+    }
+}
+
+void user_greeting(Greeting mode)
+{
+    switch(mode) {
+        case BEGINING:
+            printf("Наша программа работает в 2 режимах:\n");
             sleep(2);
-            printf("(%g - sqrt(%g)) / %g\n", -square_parameters.b, square_parameters.d, 2 * square_parameters.a);
-            sleep(2);
+            printf("Научном(1) и учебном(2), чтобы выбрать режим нажмите соответствующую клавишу\n");
             break;
-        case EXACT:
-            printf("%g\n", square_parameters.roots[0]);
+        case IN_MODE:
+            printf("Введите коэффициенты в следующем формате:\n");
             sleep(2);
-            printf("%g\n", square_parameters.roots[1]);
-            sleep(2);
+            printf("a b c\n");
             break;
         default:
-            printf("Ошибка\n");
+            printf("ОШИБКА");
             break;
     }
 }

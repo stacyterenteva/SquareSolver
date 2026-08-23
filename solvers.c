@@ -53,10 +53,5 @@ double calculate_d(Parameters* square_parameters)
 
 bool is_exact_solutions(double d)
 {
-    if (is_perfect_square(d)) {
-        return true;
-    }
-    else {
-        return false;
-    }
+    return is_perfect_square(d);
 }
