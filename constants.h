@@ -1,6 +1,8 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+const int AMT_ROOTS = 2;
+
 enum States {
     NO_ROOTS,
     ANY_ROOTS,
@@ -8,26 +10,17 @@ enum States {
     TWO_ROOTS
 };
 
-enum Modes {
-    SCIENCE = 1,
-    HELPER
-};
 
 enum Exactness {
     NOT_EXACT,
     EXACT
 };
 
-enum Greeting {
-    BEGINING,
-    IN_MODE
-};
 struct Parameters {
     double a; double b; double c;
     double d;
-    double roots[2];
+    double roots[AMT_ROOTS];
 };
-
 
  #endif /* CONSTANTS_H */
 
