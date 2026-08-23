@@ -23,7 +23,7 @@ int main()
 
     user_greeting(BEGINING);
 
-    scanf("%d", &mode_flag);
+    scanf("%d", (int*) &mode_flag);
     clean_buf();
 
     switch (mode_flag) {

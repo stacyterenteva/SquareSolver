@@ -11,22 +11,17 @@
 
 
 const int MAX_AMT_COEFF = 3;
-const int SLEEP_TIME = 2;
+const int SLEEP_TIME = 0;
 
 bool is_correct(int amt_coeff, double a, double b, double c)
 {
-    if (amt_coeff >= MAX_AMT_COEFF) {
-        while (isspace(getchar())) {
-        }
-        if (getchar() != '\n') {
-             return false;
-        }
-        else {
-            return true;
-        }
+    int last_char = getchar();
+    while (isspace(last_char) && last_char != '\n') {
+        last_char = getchar();
     }
-    return !(amt_coeff < MAX_AMT_COEFF || !(finite(a) && finite(b) && finite(c)));
+    return !(last_char != '\n' || amt_coeff < MAX_AMT_COEFF || !(finite(a) && finite(b) && finite(c)));
 }
+
 
 void process_incorrect_input(int amt_coeff, double* a, double* b, double* c)
 {
