@@ -6,14 +6,7 @@
 #include "solvers.h"
 #include "constants.h"
 #include "common_funcs.h"
-#include "modes.h"
-
-enum Modes {
-    SCIENCE = 1,
-    HELPER,
-    TRAINER
-};
-
+#include "trainer.h"
 
 int main()
 {
@@ -51,7 +44,7 @@ int main()
             break;
         }
         case TRAINER:
-            user_greeting(TRAIN_MODE);
+            trainer_work();
             break;
         default:
             printf("Œÿ»¡ ¿\n");
@@ -59,6 +52,8 @@ int main()
     }
     return 0;
 }
+
+
 
 
 

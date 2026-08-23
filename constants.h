@@ -10,6 +10,11 @@ enum States {
     TWO_ROOTS
 };
 
+enum Modes {
+    SCIENCE = 1,
+    HELPER,
+    TRAINER
+};
 
 enum Exactness {
     NOT_EXACT,
