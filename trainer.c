@@ -14,7 +14,7 @@
 void trainer_work()
 {
 
-    int training_report[AMT_QUESTIONS] = {};
+    int training_report[AMT_QUESTIONS] = {0, 0, 0, 0, 0};
 
     FILE *first_test = fopen("trainer_fail_base/first_test.csv", "r");
     assert(first_test);
@@ -45,30 +45,30 @@ void trainer_work()
     fscanf(fifth_test, "%lg", &fifth_tests[0].answer);
     fgetc(fifth_test);
 
-    trainer_asks(rand() % AMT_TESTS, training_report, first_tests);
+    trainer_asks(rand() % AMT_TESTS, training_report, first_tests, 0);
 
-    trainer_asks(rand() % AMT_TESTS, training_report, second_tests);
+    trainer_asks(rand() % AMT_TESTS, training_report, second_tests, 1);
 
-    trainer_asks(rand() % AMT_TESTS, training_report, third_tests);
+    trainer_asks(rand() % AMT_TESTS, training_report, third_tests, 2);
 
-    trainer_asks(rand() % AMT_TESTS, training_report, fourth_tests);
+    trainer_asks(rand() % AMT_TESTS, training_report, fourth_tests, 3);
 
-    trainer_asks(0, training_report, fifth_tests);
+    trainer_asks(0, training_report, fifth_tests, 4);
 
     int amt_correct_answer = count_correct_answers(training_report);
 
+    for (int i = 0; i < 5; i++)
+        printf("%d ", training_report[i]);
     print_level(amt_correct_answer);
 
 }
 
-void trainer_asks(int question_number, int training_report[], Test tests[])
+void trainer_asks(int question_number, int training_report[], Test tests[], int i)
 {
     double user_answer = 0;
     printf("%s\n%s", tests[question_number].question, "Введите правильный ответ, если вы получили два значения, выведите наибольшее\n");
-    scanf("%lg", &user_answer);
-    if (is_equal(user_answer, tests[question_number].answer)) {
-        training_report[question_number] = 1;
-    }
+    scanf("%lf", &user_answer);
+    training_report[i] = is_equal(user_answer, tests[question_number].answer);
 }
 
 void print_level(int amt_correct_answers)

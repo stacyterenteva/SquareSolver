@@ -7,7 +7,7 @@ const double eps = 1e-9;
 
 bool is_equal(double a, double b)
 {
-    return fabs(a - b) < eps;
+    return (fabs(a - b) < eps);
 }
 
 void clean_buf()

@@ -51,7 +51,7 @@ int main()
             trainer_work();
             break;
         default:
-            printf("ньхайю\n");
+            printf("О©╫О©╫О©╫О©╫О©╫О©╫\n");
             break;
     }
     return 0;

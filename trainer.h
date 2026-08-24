@@ -10,7 +10,7 @@ const int MAX_AMT_CHARS = 2000;
 struct Test {char question[MAX_AMT_CHARS]; double answer;};
 
 void trainer_work();
-void trainer_asks(int question_number, int training_report[], Test tests[]);
+void trainer_asks(int question_number, int training_report[], Test tests[], int i);
 
 int count_correct_answers(int* training_report);
 void print_level(int amt_correct_answers);
