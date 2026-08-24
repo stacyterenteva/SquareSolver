@@ -41,7 +41,7 @@ void trainer_work()
     get_file(fourth_tests, fourth_test);
 
     Test fifth_tests[1] = {{"", 0}};
-    fgets(fifth_tests[0].question, MAX_AMT_CHARS, fifth_test);
+    get_question(&fifth_tests[0], fifth_test);
     fscanf(fifth_test, "%lg", &fifth_tests[0].answer);
     fgetc(fifth_test);
 
@@ -64,7 +64,7 @@ void trainer_work()
 void trainer_asks(int question_number, int training_report[], Test tests[])
 {
     double user_answer = 0;
-    printf("%s%s", tests[question_number].question, "Введите правильный ответ, если вы получили два значения, выведите наибольшее\n");
+    printf("%s\n%s", tests[question_number].question, "Введите правильный ответ, если вы получили два значения, выведите наибольшее\n");
     scanf("%lg", &user_answer);
     if (is_equal(user_answer, tests[question_number].answer)) {
         training_report[question_number] = 1;
@@ -117,17 +117,19 @@ int count_correct_answers(int* training_report)
 void get_file(Test first_tests[], FILE *first_test)
 {
     for (int i = 0; i < AMT_TESTS; i++) {
-        fgets(first_tests[i].question, MAX_AMT_CHARS, first_test);
+        get_question(&first_tests[i], first_test);
         fscanf(first_test, "%lg", &first_tests[i].answer);
         fgetc(first_test);
     }
 }
 
-void get_question(Test test, FILE *test)
+
+void get_question(Test* tests, FILE *test)
 {
+    int ch = 0;
     int i = 0;
-    while (i < MAX_AMT_CHARS && (c = fgetc()) != EOF && c != ';') {
-        tests.question[i] = c;
+    while (i < MAX_AMT_CHARS && (ch = fgetc(test)) != EOF && ch != ';') {
+        (tests->question)[i] = (char) ch;
         i++;
     }
 }

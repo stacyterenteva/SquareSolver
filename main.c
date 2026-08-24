@@ -26,6 +26,8 @@ int main()
                        &square_parameters.b,
                        &square_parameters.c);
 
+            ai_moment();
+
             States state = solve_square_equation(&square_parameters);
             print_solutions(state, square_parameters.roots);
             break;
@@ -36,6 +38,8 @@ int main()
             get_coeffs(&square_parameters.a,
                        &square_parameters.b,
                        &square_parameters.c);
+
+            ai_moment();
 
             States state = solve_square_equation(&square_parameters);
             Exactness exact_status = (Exactness) is_exact_solutions(square_parameters.d);
