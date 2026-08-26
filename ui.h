@@ -9,13 +9,13 @@ enum Greeting {
     TRAIN_MODE
 };
 
-bool is_correct(int amt_coeff, double a, double b, double c);
-void get_coeffs(double* a, double* b, double* c);
-void process_incorrect_input(int amt_coeff, double* a, double* b, double* c);
+bool is_correct(int amt_coeff, Parameters square_parameters);
+void get_coeffs(Parameters* square_parameters);
+void process_incorrect_input(int amt_coeff, Parameters* square_parameters);
 
 void print_solutions(States state, double solutions[]);
 void print_exact_solutions(States state,
-                           Exactness exact_status,
+                           bool exact_status,
                            Parameters square_parameters);
 
 void ai_moment();

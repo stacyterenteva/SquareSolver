@@ -1,22 +1,23 @@
+#include <TXLib.h>
 #include <math.h>
 #include <stdio.h>
-#include <windows.h>
 #include <assert.h>
 
 #include "common_funcs.h"
 
-// TODO: CONSTANT_EPS
-const double eps = 1e-9;
+const int SLEEP_TIME_FOR_SLOW_PRINT = 40;
+
+const double EPS = 1e-9;
 
 bool is_equal(double a, double b)
 {
-    return (fabs(a - b) < eps);
+    return (fabs(a - b) < EPS);
 }
 
 void clean_buf()
 {
-    // NOTE: maybe UB!
     while (getchar() != '\n') {
+        ;
     }
 }
 
@@ -25,18 +26,26 @@ bool is_perfect_square(double n)
     if (n < 0) {
         return false;
     }
-    // TODO: sqrt_n = ...
-    return is_equal(sqrt(n), (int) sqrt(n));
+    double sqrt_n = sqrt(n);
+    return is_equal(sqrt_n, (int) sqrt_n);
 }
 
-void slow_print(char string[])
+void slow_print(const char string[])
 {
     assert(string);
 
     for (int i = 0; string[i] != '\0'; i++) {
         putchar(string[i]);
-        // TODO: magic number
-        Sleep(40);
+        txSleep(SLEEP_TIME_FOR_SLOW_PRINT);
+    }
+}
+
+void getline(char* string, int max_len)
+{
+    int i = 0;
+    while (i < max_len && (c = getchar()) != '\n') {
+        string[i] = c;
+        i++;
     }
 }
 

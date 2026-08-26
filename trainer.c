@@ -1,4 +1,4 @@
-//#include <TXLib.h>
+#include <TXLib.h>
 #include <stdio.h>
 #include <assert.h>
 #include <math.h>
@@ -13,95 +13,66 @@
 
 void trainer_work()
 {
-
-    int training_report[AMT_QUESTIONS] = {0, 0, 0, 0, 0};
-
-    //const char file_names = {first_test, second_test, third_test};
+    int num_of_correct_answers = 0;
 
     FILE *files[NUM_OF_FILES] = {};
 
     open_all_files(files);
 
+    // TODO: magic numbers
+    // TODO: initialization using NAN
     Test all_tests[5][4] = {{{"", 0}, {"", 0}, {"", 0}, {"", 0}},
                             {{"", 0}, {"", 0}, {"", 0}, {"", 0}},
                             {{"", 0}, {"", 0}, {"", 0}, {"", 0}},
                             {{"", 0}, {"", 0}, {"", 0}, {"", 0}},
                             {{"", 0}, {"", 0}, {"", 0}, {"", 0}}};
 
-    for (int j = 0; j < 4; j++) {
+    for (int j = 0; j < 4; j++) {        //для первых четырёх вопросов(собираем пароль)
         get_file(all_tests[j], files[j]);
     }
 
-    Test fifth_tests[1] = {{"", 0}};
-    get_question(&fifth_tests[0], files[4]);
-    fscanf(files[4], "%lg", &fifth_tests[0].answer);
+    Test boss = {"", 0};                //а вот это отдельный блок для финального босса
+    get_question(&boss, files[4]);
+    fscanf(files[4], "%lg", &boss.answer);
     fgetc(files[4]);
 
+    begin_game();
+
+    char* user_name[MAX_LEN_NAME] = "";
+
+    getline(user_name, );
+
+    introducing_of_user(&user_name);
+
     for (int k = 0; k < 4; k++) {
-        trainer_asks(rand() % AMT_TESTS, training_report, all_tests[k], k);
+        trainer_asks(rand() % AMT_TESTS, all_tests[k], &num_of_correct_answers);
     }
+    trainer_asks(0, &boss, &num_of_correct_answers);
 
-    trainer_asks(0, training_report, fifth_tests, 4);
-
-    int amt_correct_answer = count_correct_answers(training_report);
-
-    for (int i = 0; i < 5; i++)
-        printf("%d ", training_report[i]);
-    print_level(amt_correct_answer);
-
+    end_game(num_of_correct_answers);
 }
 
-void trainer_asks(int question_number, int training_report[], Test tests[], int i)
+void trainer_asks(int question_number, Test tests[], int* num_of_correct_answers)
 {
     double user_answer = 0;
     printf("%s\n%s", tests[question_number].question, "Введите правильный ответ, если вы получили два значения, выведите наибольшее\n");
     scanf("%lf", &user_answer);
-    training_report[i] = is_equal(user_answer, tests[question_number].answer);
-}
-
-void print_level(int amt_correct_answers)
-{
-    switch (amt_correct_answers) {
-        case 0:
-            printf("Вы дали 0 правильных ответов, ваш уровень: Полный ноль\n");
-            printf("Не расстраивайтесь, ведь с нашими тестами вы легко его поднимите\n");
-            break;
-        case 1:
-            printf("Вы дали 1 правильный ответ, ваш уровень: Начинающий\n");
-            printf("Не расстраивайтесь, ведь с нашими тестами вы легко его поднимите\n");
-            break;
-        case 2:
-            printf("Вы дали 2 правильных ответа, ваш уровень: Уже что-знаете\n");
-            printf("Вы знаете базу, но вам возможно не хватает опыта, продолжайте использовать тренажёр\n");
-            break;
-        case 3:
-            printf("Вы дали 3 правильных ответа, ваш уровень: Середнячок\n");
-            printf("Возможно вы неправильно решаете задачи или ошибаетесь по невнимательности\n");
-            break;
-        case 4:
-            printf("Вы дали 4 правильных ответа, ваш уровень: Уверенный\n");
-            printf("Это почти идеал, но всегда можно стремиться к лучшему\n");
-            printf("Продолжайте пользоваться тренажёром\n");
-            break;
-        case 5:
-            printf("Вы дали 5 правильных ответов, ваш уровень: Бог квадратных уравнений\n");
-            printf("Поздравляем с максимальным результатом!!\n");
-            printf("Вы отлично разбираетесь в теме\n");
-            break;
-        default:
-            printf("ОШИБКА\n");
+    if (is_equal(user_answer, tests[question_number].answer)) {
+        (*num_of_correct_answers)++;
     }
 }
 
-int count_correct_answers(int* training_report)
+void end_game(int num_of_correct_answers)
 {
-    int amt_correct_answers = 0;
-    for (int i = 0; i < AMT_QUESTIONS; i++) {
-        amt_correct_answers += training_report[i];
+    if (num_of_correct_answers == 5) {
+        printf("Вы ограбили банк, сегодня в тюрьму вас не посадят, но лучше завязывать\n");
     }
-    return amt_correct_answers;
+    else {
+        printf("Вы ошиблись и Костю с Иваном засекла система безопасности, *звуки мигалки*\n");
+    }
 }
 
+// TODO maybe unify reading
 void get_file(Test first_tests[], FILE *first_test)
 {
     for (int i = 0; i < AMT_TESTS; i++) {
@@ -124,6 +95,7 @@ void get_question(Test* tests, FILE *test)
 
 void open_all_files(FILE *files[])
 {
+    // TODO: read about errno
     FILE *first_test = fopen("trainer_fail_base/first_test.csv", "r");
     assert(first_test);
     files[0] = first_test;
@@ -145,6 +117,38 @@ void open_all_files(FILE *files[])
     files[4] = fifth_test;
 }
 
+void begin_game()
+{
+    slow_print("Вы входите в квартиру, адрес которой указан в помятой записке и слышите чьи-то голоса\n");
+    putchar('\n');
+    txSleep(300);
+    slow_print("-Иван, это безумие, нельзя грабануть банк в центре Москвы и не попасться полиции\n");
+    txSleep(300);
+    slow_print("-Кость, нас ловили хоть раз?\n");
+    txSleep(300);
+    slow_print("-Нет, но...\n");
+    txSleep(300);
+    slow_print("-Тем более мы наняли этого, как его..\n");
+}
+
+void introducing_of_user(const char** user_name)
+{
+    printf("-Вот, user_name расшифрует нам пароль от сейфа с бабкамии и, если что, сможет взломать систему безопасности.\n");
+    txSleep(600);
+    printf("Введите своё имя: ");
+    //scanf("%s", *user_name);
+    putchar('\n');
+    // TODO snprintf
+    slow_print("-%s, мы с Костей устроились пару месяцев назад в банк и сегодня проникнем в хранилище, а твоя задача расшифровать элементы пароля\n");
+    txSleep(300);
+    slow_print("и отправить нам. Также от тебя требуется всё время оставаться на связи, и, если потребуется  взломать систему безопасности и отключить его\n");
+    txSleep(600);
+    slow_print("Вы получили зашифрованные элементы пароля и компьютер от Ивана и Кости, вы должны отправлять расшифрованные элементы сразу после расшифровки\n");
+    txSleep(600);
+    slow_print("-А, и кстати, если ты ошибёшься хоть раз, в хранилище сработает сигнализация и за нами приедет полиция, и будь уверен, %s, мы обязательно тебя сдадим\n");
+    txSleep(300);
+    slow_print("Всё, на компе все файлы которые нам удалось достать, удачи\n");
+}
 
 
 

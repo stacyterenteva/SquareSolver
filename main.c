@@ -1,6 +1,5 @@
 #define TX_COMPILED
 #include <TXLib.h>
-// TODO: useless include
 #include <math.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -13,9 +12,6 @@
 
 int main()
 {
-    // "hfjklahjklhfjlahjlhjlhjlkhjklhjklhjklhjljl" == { 'h', 'f', ..., 'l', '\0' }
-    // TODO: initialization
-    txSleep(100);
     Modes mode_flag = SCIENCE;
 
     Parameters square_parameters =
@@ -29,10 +25,7 @@ int main()
     switch (mode_flag) {
         case SCIENCE: {
             user_greeting(IN_MODE);
-            // TODO: get_coefs(struct)
-            get_coeffs(&square_parameters.a,
-                       &square_parameters.b,
-                       &square_parameters.c);
+            get_coeffs(&square_parameters);
 
             ai_moment();
 
@@ -43,15 +36,12 @@ int main()
         case HELPER: {
             user_greeting(IN_MODE);
 
-            get_coeffs(&square_parameters.a,
-                       &square_parameters.b,
-                       &square_parameters.c);
+            get_coeffs(&square_parameters);
 
             ai_moment();
 
             States state = solve_square_equation(&square_parameters);
-            // TODO: use bool type instead enum
-            Exactness exact_status = (Exactness) is_exact_solutions(square_parameters.d);
+            bool exact_status = is_exact_solutions(square_parameters.d);
 
             print_exact_solutions(state, exact_status, square_parameters);
             break;
@@ -60,11 +50,12 @@ int main()
             trainer_work();
             break;
         default:
+            // TODO: EXIT_FAILURE
             printf("Ошибка\n");
             break;
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 

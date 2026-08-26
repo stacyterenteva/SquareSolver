@@ -10,44 +10,39 @@
 #include "constants.h"
 
 
-const int MAX_AMT_COEFF = 3;
+const int MAX_NUM_OF_COEFF = 3;
 const int SLEEP_TIME = 0;
 
-bool is_correct(int amt_coeff, double a, double b, double c)
+bool is_correct(int num_of_coeff, Parameters square_parameters)
 {
     int last_char = getchar();
     while (isspace(last_char) && last_char != '\n') {
         last_char = getchar();
     }
-    return !(last_char != '\n' || amt_coeff < MAX_AMT_COEFF || !(finite(a) && finite(b) && finite(c)));
+    return !(last_char != '\n' || num_of_coeff < MAX_NUM_OF_COEFF || !(finite(square_parameters.a) && finite(square_parameters.b) && finite(square_parameters.c)));
 }
 
 
-void process_incorrect_input(int amt_coeff, double* a, double* b, double* c)
+void process_incorrect_input(int num_of_coeff, Parameters* square_parameters)
 {
-    while (!is_correct(amt_coeff, *a, *b, *c)) {
+    while (!is_correct(num_of_coeff, *square_parameters)) {
         printf("Некорректный ввод\n");
         sleep(SLEEP_TIME);
         printf("Введите коэффициенты квадратного уравнения в следующем формате:\n");
         sleep(SLEEP_TIME);
         printf("a b c\n");
         clean_buf();
-        amt_coeff = scanf("%lf %lf %lf", a, b, c);
+        num_of_coeff = scanf("%lf %lf %lf", &(square_parameters->a), &(square_parameters->b), &(square_parameters->c));
     }
 }
 
-void get_coeffs(double* a, double* b, double* c)
+void get_coeffs(Parameters* square_parameters)
 {
-    assert(a);
-    assert(b);
-    assert(c);
-    assert(a != b);
-    assert(b != c);
-    assert(a != c);
+    assert(square_parameters);
 
     // TODO: rename AMT->NUM_OF
-    int amt_coeff = scanf("%lf %lf %lf", a, b, c);
-    process_incorrect_input(amt_coeff, a, b, c);
+    int num_of_coeff = scanf("%lf %lf %lf", &(square_parameters->a), &(square_parameters->b), &(square_parameters->c));
+    process_incorrect_input(num_of_coeff, square_parameters);
 
 }
 
@@ -119,36 +114,31 @@ void ai_moment() {
             break;
         // TODO: maybe assert
         default:
-            printf("ERROR\n");
+            assert(0);
     }
 }
 
-void print_exact_solutions(States state, Exactness exact_status, Parameters square_parameters)
+void print_exact_solutions(States state, bool exact_status, Parameters square_parameters)
 {
     if (state != TWO_ROOTS) {
                 print_solutions(state, square_parameters.roots);
     }
     else {
-        switch(exact_status) {
-            case NOT_EXACT:
-                printf("(%g + sqrt(%g)) / %g\n", -square_parameters.b, square_parameters.d, 2 * square_parameters.a);
-                sleep(SLEEP_TIME);
-                printf("(%g - sqrt(%g)) / %g\n", -square_parameters.b, square_parameters.d, 2 * square_parameters.a);
-                sleep(SLEEP_TIME);
-                break;
-            case EXACT:
-                printf("%g\n", square_parameters.roots[0]);
-                sleep(SLEEP_TIME);
-                printf("%g\n", square_parameters.roots[1]);
-                sleep(SLEEP_TIME);
-                break;
-            // TODO: maybe assert?
-            default:
-                printf("Ошибка\n");
-                break;
-            }
+        if (exact_status) {
+            printf("(%g + sqrt(%g)) / %g\n", -square_parameters.b, square_parameters.d, 2 * square_parameters.a);
+            sleep(SLEEP_TIME);
+            printf("(%g - sqrt(%g)) / %g\n", -square_parameters.b, square_parameters.d, 2 * square_parameters.a);
+            sleep(SLEEP_TIME);
+        }
+        else {
+            printf("%g\n", square_parameters.roots[0]);
+            sleep(SLEEP_TIME);
+            printf("%g\n", square_parameters.roots[1]);
+            sleep(SLEEP_TIME);
+        }
     }
 }
+
 
 void user_greeting(Greeting mode)
 {

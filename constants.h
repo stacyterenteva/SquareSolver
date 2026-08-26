@@ -18,11 +18,6 @@ enum Modes {
     TRAINER
 };
 
-enum Exactness {
-    NOT_EXACT,
-    EXACT
-};
-
 struct Parameters {
     double a; double b; double c;
     double d;

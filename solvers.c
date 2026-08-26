@@ -4,7 +4,6 @@
 #include "solvers.h"
 #include "common_funcs.h"
 
-
 States solve_square_equation(Parameters* square_parameters)
 {
     assert(square_parameters);
@@ -26,7 +25,7 @@ States solve_square_equation(Parameters* square_parameters)
         square_parameters->roots[0] = (-square_parameters->b + sqrt_d) / (2 * square_parameters->a);
         square_parameters->roots[1] = (-square_parameters->b - sqrt_d) / (2 * square_parameters->a);
         return TWO_ROOTS;
-    } //TODO KOREN IZ 14 TIYZHELO BVRAT DVA RAZA
+    }
 }
 
 States solve_linear_equation(Parameters* square_parameters)
@@ -55,6 +54,7 @@ double calculate_d(Parameters* square_parameters)
     return square_parameters->b * square_parameters->b - 4 * square_parameters->a * square_parameters->c;
 }
 
+// TODO: maybe useless function
 bool is_exact_solutions(double d)
 {
     return is_perfect_square(d);
