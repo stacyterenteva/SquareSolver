@@ -1,8 +1,10 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+// максимальное число корней
 const int AMT_ROOTS = 2;
 
+// TODO: rename ENUM_NAME_ENUM_MEMBER
 enum States {
     NO_ROOTS,
     ANY_ROOTS,

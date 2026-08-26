@@ -45,6 +45,7 @@ void get_coeffs(double* a, double* b, double* c)
     assert(b != c);
     assert(a != c);
 
+    // TODO: rename AMT->NUM_OF
     int amt_coeff = scanf("%lf %lf %lf", a, b, c);
     process_incorrect_input(amt_coeff, a, b, c);
 
@@ -82,6 +83,7 @@ void print_solutions(States state, double solutions[])
 void ai_moment() {
     int phrase_number = rand() % 8;
 
+    // TODO: think about this
     switch(phrase_number) {
         case 0:
             printf("Это очень красивые коэффициенты)\n");
@@ -115,6 +117,7 @@ void ai_moment() {
             printf("Это очень красивые коэффициенты)\n");
             sleep(SLEEP_TIME);
             break;
+        // TODO: maybe assert
         default:
             printf("ERROR\n");
     }
@@ -139,6 +142,7 @@ void print_exact_solutions(States state, Exactness exact_status, Parameters squa
                 printf("%g\n", square_parameters.roots[1]);
                 sleep(SLEEP_TIME);
                 break;
+            // TODO: maybe assert?
             default:
                 printf("Ошибка\n");
                 break;
@@ -166,7 +170,7 @@ void user_greeting(Greeting mode)
             printf("x1 x2\n");
             break;
         default:
-            printf("ОШИБКА");
+            assert(0 && "Unreachable");
             break;
     }
 }

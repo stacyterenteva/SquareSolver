@@ -6,6 +6,7 @@
 const int AMT_QUESTIONS = 5;
 const int AMT_TESTS = 4;
 const int MAX_AMT_CHARS = 2000;
+const int MAX_FILES = 5;
 
 struct Test {char question[MAX_AMT_CHARS]; double answer;};
 
@@ -17,5 +18,6 @@ void print_level(int amt_correct_answers);
 
 void get_file(Test first_tests[], FILE *first_test);
 void get_question(Test* tests, FILE* test);
+void open_all_files(FILE *files[]);
 
 #endif /* TRAINER_H */

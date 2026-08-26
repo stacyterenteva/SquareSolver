@@ -1,4 +1,4 @@
-#include <TXLib.h>
+//#include <TXLib.h>
 #include <stdio.h>
 #include <assert.h>
 #include <math.h>
@@ -16,34 +16,24 @@ void trainer_work()
 
     int training_report[AMT_QUESTIONS] = {0, 0, 0, 0, 0};
 
-    FILE *first_test = fopen("trainer_fail_base/first_test.csv", "r");
-    assert(first_test);
-    FILE *second_test = fopen("trainer_fail_base/second_test.csv", "r");
-    assert(second_test);
-    FILE *third_test = fopen("trainer_fail_base/third_test.csv", "r");
-    assert(third_test);
-    FILE *fourth_test = fopen("trainer_fail_base/fourth_test.csv", "r");
-    assert(fourth_test);
-    FILE *fifth_test = fopen("trainer_fail_base/fifth_test.csv", "r");
-    assert(fifth_test);
-
+    FILE *files[MAX_FILES] = {};
 
     Test first_tests[AMT_TESTS] = {{"", 0}, {"", 0}, {"", 0}, {"", 0}};
-    get_file(first_tests, first_test);
+    get_file(first_tests, files[0]);
 
     Test second_tests[AMT_TESTS] = {{"", 0}, {"", 0}, {"", 0}, {"", 0}};
-    get_file(second_tests, second_test);
+    get_file(second_tests, files[1]);
 
     Test third_tests[AMT_TESTS] = {{"", 0}, {"", 0}, {"", 0}, {"", 0}};
-    get_file(third_tests, third_test);
+    get_file(third_tests, files[2]);
 
     Test fourth_tests[AMT_TESTS] = {{"", 0}, {"", 0}, {"", 0}, {"", 0}};
-    get_file(fourth_tests, fourth_test);
+    get_file(fourth_tests, files[3]);
 
     Test fifth_tests[1] = {{"", 0}};
-    get_question(&fifth_tests[0], fifth_test);
-    fscanf(fifth_test, "%lg", &fifth_tests[0].answer);
-    fgetc(fifth_test);
+    get_question(&fifth_tests[0], files[4]);
+    fscanf(files[4], "%lg", &fifth_tests[0].answer);
+    fgetc(files[4]);
 
     trainer_asks(rand() % AMT_TESTS, training_report, first_tests, 0);
 
@@ -132,6 +122,29 @@ void get_question(Test* tests, FILE *test)
         (tests->question)[i] = (char) ch;
         i++;
     }
+}
+
+void open_all_files(FILE *files[])
+{
+    FILE *first_test = fopen("trainer_fail_base/first_test.csv", "r");
+    assert(first_test);
+    files[0] = first_test;
+
+    FILE *second_test = fopen("trainer_fail_base/second_test.csv", "r");
+    assert(second_test);
+    files[1] = second_test;
+
+    FILE *third_test = fopen("trainer_fail_base/third_test.csv", "r");
+    assert(third_test);
+    files[2] = third_test;
+
+    FILE *fourth_test = fopen("trainer_fail_base/fourth_test.csv", "r");
+    assert(fourth_test);
+    files[3] = fourth_test;
+
+    FILE *fifth_test = fopen("trainer_fail_base/fifth_test.csv", "r");
+    assert(fifth_test);
+    files[4] = fifth_test;
 }
 
 
