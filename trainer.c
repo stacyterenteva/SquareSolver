@@ -16,32 +16,30 @@ void trainer_work()
 
     int training_report[AMT_QUESTIONS] = {0, 0, 0, 0, 0};
 
-    FILE *files[MAX_FILES] = {};
+    //const char file_names = {first_test, second_test, third_test};
 
-    Test first_tests[AMT_TESTS] = {{"", 0}, {"", 0}, {"", 0}, {"", 0}};
-    get_file(first_tests, files[0]);
+    FILE *files[NUM_OF_FILES] = {};
 
-    Test second_tests[AMT_TESTS] = {{"", 0}, {"", 0}, {"", 0}, {"", 0}};
-    get_file(second_tests, files[1]);
+    open_all_files(files);
 
-    Test third_tests[AMT_TESTS] = {{"", 0}, {"", 0}, {"", 0}, {"", 0}};
-    get_file(third_tests, files[2]);
+    Test all_tests[5][4] = {{{"", 0}, {"", 0}, {"", 0}, {"", 0}},
+                            {{"", 0}, {"", 0}, {"", 0}, {"", 0}},
+                            {{"", 0}, {"", 0}, {"", 0}, {"", 0}},
+                            {{"", 0}, {"", 0}, {"", 0}, {"", 0}},
+                            {{"", 0}, {"", 0}, {"", 0}, {"", 0}}};
 
-    Test fourth_tests[AMT_TESTS] = {{"", 0}, {"", 0}, {"", 0}, {"", 0}};
-    get_file(fourth_tests, files[3]);
+    for (int j = 0; j < 4; j++) {
+        get_file(all_tests[j], files[j]);
+    }
 
     Test fifth_tests[1] = {{"", 0}};
     get_question(&fifth_tests[0], files[4]);
     fscanf(files[4], "%lg", &fifth_tests[0].answer);
     fgetc(files[4]);
 
-    trainer_asks(rand() % AMT_TESTS, training_report, first_tests, 0);
-
-    trainer_asks(rand() % AMT_TESTS, training_report, second_tests, 1);
-
-    trainer_asks(rand() % AMT_TESTS, training_report, third_tests, 2);
-
-    trainer_asks(rand() % AMT_TESTS, training_report, fourth_tests, 3);
+    for (int k = 0; k < 4; k++) {
+        trainer_asks(rand() % AMT_TESTS, training_report, all_tests[k], k);
+    }
 
     trainer_asks(0, training_report, fifth_tests, 4);
 

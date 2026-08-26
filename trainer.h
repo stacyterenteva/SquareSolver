@@ -6,7 +6,7 @@
 const int AMT_QUESTIONS = 5;
 const int AMT_TESTS = 4;
 const int MAX_AMT_CHARS = 2000;
-const int MAX_FILES = 5;
+const int NUM_OF_FILES = 5;
 
 struct Test {char question[MAX_AMT_CHARS]; double answer;};
 
