@@ -4,6 +4,7 @@
 #include "solvers.h"
 #include "common_funcs.h"
 
+
 States solve_square_equation(Parameters* square_parameters)
 {
     assert(square_parameters);

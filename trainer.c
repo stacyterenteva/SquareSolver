@@ -1,4 +1,6 @@
 #define TX_COMPILED
+#define YELLOW "\033[33m"
+#define RESET "\033[0m"
 #include <TXLib.h>
 #include <stdio.h>
 #include <assert.h>
@@ -24,7 +26,7 @@ void trainer_work()
                             {{"", NAN}, {"", NAN}, {"", NAN}, {"", NAN}},
                             {{"", NAN}, {"", NAN}, {"", NAN}, {"", NAN}},
                             {{"", NAN}, {"", NAN}, {"", NAN}, {"", NAN}},
-                            {{"", NAN}, {"", NAN}, {"", NAN}, {"", NAN}}};
+                            {{"", NAN}}};
 
     for (int j = 0; j < NUM_OF_QUESTIONS; j++) {        //для первых четырёх вопросов(собираем пароль)
         get_file(all_tests[j], files[j]);
@@ -44,6 +46,8 @@ void trainer_work()
     for (int k = 0; k < NUM_OF_QUESTIONS; k++) {
         trainer_asks(rand() % NUM_OF_TESTS, all_tests[k], &num_of_correct_answers);
     }
+
+    preboss_tekst(user_name);
     trainer_asks(0, &boss, &num_of_correct_answers);
 
     end_game(num_of_correct_answers);
@@ -81,7 +85,6 @@ void get_file(Test first_tests[], FILE *first_test)
     }
 }
 
-
 void get_question(Test* tests, FILE *test)
 {
     int ch = 0;
@@ -97,7 +100,7 @@ void open_all_files(FILE *files[]) //TODO return ERROR и потом обработать
     FILE *first_test = fopen("trainer_fail_base/first_test.csv", "r");
     if (first_test == NULL) {
         perror("ERROR"); //NOTE Как потом выйти из программы ли так выходить из программы
-                                         //exit() вызывает warning
+                        //exit() вызывает warning
     }
     files[0] = first_test;
 
@@ -131,15 +134,25 @@ void begin_game()
     // TODO: magic numbers
     slow_print("Вы входите в квартиру, адрес которой указан в помятой записке и слышите чьи-то голоса\n\n");
     txSleep(SHORT_SLEEP);
+    getchar();
+    printf("\x1b[A");
 
-    slow_print("-Иван, это безумие, нельзя грабануть банк в центре Москвы и не попасться полиции\n");
+    slow_print(YELLOW "-Иван, это безумие, нельзя грабануть банк в центре Москвы и не попасться полиции\n");
     txSleep(SHORT_SLEEP);
+    getchar();
+    printf("\x1b[A");
+    // getchar();
+
     slow_print("-Кость, нас ловили хоть раз?\n");
     txSleep(SHORT_SLEEP);
+    // getchar();
+
     slow_print("-Нет, но...\n");
     txSleep(SHORT_SLEEP);
+    // getchar(); //для переключения диалогов любой клавишей
+
     slow_print("-Тем более мы наняли этого, как его..\n\n");
-    slow_print("Вы входите в комнату откуда были слышны голоса\n\n");
+    slow_print(RESET "Вы входите в комнату откуда были слышны голоса\n\n");
 }
 
 //work in progress
@@ -147,36 +160,78 @@ void introducing_of_user(char* user_name)
 {
     assert(user_name);
 
-    slow_print("-Вот, его мы наняли, напомни, как тебя зовут?\n");
+    slow_print(YELLOW "-Вот, его мы наняли, напомни, как тебя зовут?\n\n");
     txSleep(SHORT_SLEEP);
+    // getchar();
 
-    printf("Введите своё имя: ");
+    printf(RESET "Введите своё имя: ");
     txSleep(SHORT_SLEEP);
+    // getchar();
 
     getline(user_name, MAX_NAME_LEN);
-    char temp1[MAX_NUM_OF_CHARS] = {};
-    snprintf(temp1, sizeof(temp1), "-Да, %s расшифрует нам пароль от сейфа с бабкамии и если что сможет взломать систему безопасности.\n", user_name);
-    slow_print(temp1);
+
+    putchar('\n');
+
+    char temp[MAX_NUM_OF_CHARS] = {};
+    snprintf(temp, sizeof(temp), YELLOW "-Да, %s расшифрует нам пароль от сейфа с бабкамии и если что сможет взломать систему безопасности.\n", user_name);
+    slow_print(temp);
+    txSleep(SHORT_SLEEP);
+    goto_next_phrase();
+    // getchar();
+
+    temp[MAX_NUM_OF_CHARS] = {};
+    snprintf(temp, sizeof(temp), "-%s, мы с Костей устроились пару месяцев назад в банк и сегодня проникнем в хранилище, а твоя задача расшифровать элементы пароля\n", user_name);
+    slow_print(temp);
     txSleep(SHORT_SLEEP);
 
-    char temp2[MAX_NUM_OF_CHARS] = {};
-    snprintf(temp2, sizeof(temp2), "-%s, мы с Костей устроились пару месяцев назад в банк и сегодня проникнем в хранилище, а твоя задача расшифровать элементы пароля\n", user_name);
-    slow_print(temp2);
-    txSleep(SHORT_SLEEP);
+    slow_print(YELLOW "и отправить нам. Также от тебя требуется всё время оставаться на связи, и, если потребуется, взломать систему безопасности и отключить её\n\n");
+    txSleep(LONG_SLEEP);
+    goto_next_phrase();
 
-    slow_print("и отправить нам. Также от тебя требуется всё время оставаться на связи, и, если потребуется  взломать систему безопасности и отключить его\n");
+    slow_print(RESET "Вы получили зашифрованные элементы пароля и компьютер от Ивана и Кости, вы должны отправлять расшифрованные элементы сразу после расшифровки\n\n");
     txSleep(LONG_SLEEP);
 
-    slow_print("Вы получили зашифрованные элементы пароля и компьютер от Ивана и Кости, вы должны отправлять расшифрованные элементы сразу после расшифровки\n");
+    temp[MAX_NUM_OF_CHARS] = {};
+    snprintf(temp, sizeof(temp), YELLOW "-А, и кстати, если ты ошибёшься хоть раз, в хранилище сработает сигнализация и за нами приедет полиция, это я тебе гарантирую, %s, мы обязательно тебя сдадим\n", user_name);
+
+    slow_print(temp);
+    txSleep(SHORT_SLEEP);
+    goto_next_phrase();
+
+    slow_print(YELLOW "Всё, на компе все файлы которые нам удалось достать, удачи\n\n");
+    printf(RESET);
+    goto_next_phrase();
+}
+
+void preboss_tekst(char* user_name)
+{
+    slow_print(RESET "Вы обработали все файлы\n");
     txSleep(LONG_SLEEP);
 
-    char temp3[MAX_NUM_OF_CHARS] = {};
-    snprintf(temp3, sizeof(temp3), "-А, и кстати, если ты ошибёшься хоть раз, в хранилище сработает сигнализация и за нами приедет полиция, это я тебе гарантирую, %s, мы обязательно тебя сдадим\n", user_name);
-
-    slow_print(temp3);
+    slow_print("...\n");
+    slow_print("Телефон оставленный Иваном начинал еле слышно вибрировать\n");
     txSleep(SHORT_SLEEP);
+    goto_next_phrase();
 
-    slow_print("Всё, на компе все файлы которые нам удалось достать, удачи\n");
+    slow_print("Вы берёте трубку и слышите приглушённые голоса\n\n");
+    txSleep(SHORT_SLEEP);
+    // getchar();
+
+    slow_print(YELLOW "-Чертовы лазеры, почему их не было в плане здания?!");
+    txSleep(SHORT_SLEEP);
+    goto_next_phrase();
+
+    char temp[MAX_NUM_OF_CHARS] = {};
+    snprintf(temp, sizeof(temp), "%s нам нужно быстро вырубить систему безопасности, я скину все вводные\n", user_name);
+    slow_print(temp);
+
+    slow_print(YELLOW "А твоя задача, сделать все необходимые рассчеты, быстрее прошу тебя\n\n" RESET);
+    txSleep(LONG_SLEEP);
+}
+
+void goto_next_phrase() {
+    getchar();
+    printf("\x1b[A");
 }
 
 

@@ -53,20 +53,24 @@ void print_solutions(States state, double solutions[])
             printf("У уравнения нет решений\n");
             sleep(SLEEP_TIME);
             break;
+
         case STATES_ONE_ROOT:
             printf("Единственное решение уравнения: %g", solutions[0]);
             sleep(SLEEP_TIME);
             break;
+
         case STATES_TWO_ROOTS:
             printf("Первый корень уравнения: %g\n", solutions[0]);
             sleep(SLEEP_TIME);
             printf("Второй корень уравнения: %g\n", solutions[1]);
             sleep(SLEEP_TIME);
             break;
+
         case STATES_ANY_ROOTS:
             printf("Любое число - решение уравнения\n");
             sleep(SLEEP_TIME);
             break;
+
         default:
             printf("ОШИБКА\n");
             sleep(SLEEP_TIME);

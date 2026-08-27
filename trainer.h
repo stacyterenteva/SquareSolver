@@ -20,9 +20,12 @@ void trainer_asks(int question_number, Test tests[], int* num_of_correct_answers
 void end_game(int num_of_correct_answers);
 void begin_game();
 void introducing_of_user(char* user_name);
+void preboss_tekst(char* user_name);
 
 void get_file(Test first_tests[], FILE *first_test);
 void get_question(Test* tests, FILE* test);
 void open_all_files(FILE *files[]);
+
+void goto_next_phrase();
 
 #endif /* TRAINER_H */

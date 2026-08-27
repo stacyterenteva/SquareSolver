@@ -8,6 +8,7 @@
 #include "../common_funcs.h"
 #include "../solvers.h"
 
+
 struct test {
     double coeffs[3];
     States state;
