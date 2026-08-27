@@ -14,17 +14,17 @@ States solve_square_equation(Parameters* square_parameters)
     square_parameters->d = calculate_d(square_parameters);
 
     if (square_parameters->d < 0) {
-        return NO_ROOTS;
+        return STATES_NO_ROOTS;
     }
     else if (is_equal(square_parameters->d, 0)) {
         square_parameters->roots[0] = -square_parameters->b / (2 * square_parameters->a);
-        return ONE_ROOT;
+        return STATES_ONE_ROOT;
     }
     else {
         double sqrt_d = sqrt(square_parameters->d);
         square_parameters->roots[0] = (-square_parameters->b + sqrt_d) / (2 * square_parameters->a);
         square_parameters->roots[1] = (-square_parameters->b - sqrt_d) / (2 * square_parameters->a);
-        return TWO_ROOTS;
+        return STATES_TWO_ROOTS;
     }
 }
 
@@ -36,15 +36,15 @@ States solve_linear_equation(Parameters* square_parameters)
 
     if (is_equal(square_parameters->b, 0)) {
         if (is_equal(square_parameters->c, 0)) {
-            return ANY_ROOTS; //любое решение
+            return STATES_ANY_ROOTS; //любое решение
         }
         else {
-            return NO_ROOTS; //нет решений
+            return STATES_NO_ROOTS; //нет решений
         }
     }
     else {
         square_parameters->roots[0] = square_parameters->c / square_parameters->b;
-        return ONE_ROOT;
+        return STATES_ONE_ROOT;
     }
 }
 
@@ -54,8 +54,11 @@ double calculate_d(Parameters* square_parameters)
     return square_parameters->b * square_parameters->b - 4 * square_parameters->a * square_parameters->c;
 }
 
-// TODO: maybe useless function
-bool is_exact_solutions(double d)
+bool is_exact_solutions(double n)
 {
-    return is_perfect_square(d);
+    if (n < 0) {
+        return false;
+    }
+    double sqrt_n = sqrt(n);
+    return is_equal(sqrt_n, (int) sqrt_n);
 }

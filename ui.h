@@ -4,9 +4,8 @@
 #include "constants.h"
 
 enum Greeting {
-    BEGINING,
-    IN_MODE,
-    TRAIN_MODE
+    GREETING_BEGINING,
+    GREETING_IN_MODE
 };
 
 bool is_correct(int amt_coeff, Parameters square_parameters);

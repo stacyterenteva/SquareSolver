@@ -1,5 +1,3 @@
-#define TX_COMPILED
-#include <TXLib.h>
 #include <math.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -10,21 +8,22 @@
 #include "common_funcs.h"
 #include "trainer.h"
 
+
 int main()
 {
-    Modes mode_flag = SCIENCE;
+    Modes mode_flag = MODES_SCIENCE;
 
     Parameters square_parameters =
         {.a = NAN, .b = NAN, .c = NAN, .d = NAN, .roots = {NAN, NAN}};
 
-    user_greeting(BEGINING);
+    user_greeting(GREETING_BEGINING);
 
     scanf("%d", (int*) &mode_flag);
     clean_buf();
 
     switch (mode_flag) {
-        case SCIENCE: {
-            user_greeting(IN_MODE);
+        case MODES_SCIENCE: {
+            user_greeting(GREETING_IN_MODE);
             get_coeffs(&square_parameters);
 
             ai_moment();
@@ -33,8 +32,8 @@ int main()
             print_solutions(state, square_parameters.roots);
             break;
         }
-        case HELPER: {
-            user_greeting(IN_MODE);
+        case MODES_HELPER: {
+            user_greeting(GREETING_IN_MODE);
 
             get_coeffs(&square_parameters);
 
@@ -46,12 +45,13 @@ int main()
             print_exact_solutions(state, exact_status, square_parameters);
             break;
         }
-        case TRAINER:
+        case MODES_TRAINER:
             trainer_work();
             break;
         default:
-            // TODO: EXIT_FAILURE
+
             printf("Ошибка\n");
+            return EXIT_FAILURE;
             break;
     }
 

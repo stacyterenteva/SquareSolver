@@ -40,7 +40,6 @@ void get_coeffs(Parameters* square_parameters)
 {
     assert(square_parameters);
 
-    // TODO: rename AMT->NUM_OF
     int num_of_coeff = scanf("%lf %lf %lf", &(square_parameters->a), &(square_parameters->b), &(square_parameters->c));
     process_incorrect_input(num_of_coeff, square_parameters);
 
@@ -50,21 +49,21 @@ void get_coeffs(Parameters* square_parameters)
 void print_solutions(States state, double solutions[])
 {
     switch(state) {
-        case NO_ROOTS:
+        case STATES_NO_ROOTS:
             printf("У уравнения нет решений\n");
             sleep(SLEEP_TIME);
             break;
-        case ONE_ROOT:
+        case STATES_ONE_ROOT:
             printf("Единственное решение уравнения: %g", solutions[0]);
             sleep(SLEEP_TIME);
             break;
-        case TWO_ROOTS:
+        case STATES_TWO_ROOTS:
             printf("Первый корень уравнения: %g\n", solutions[0]);
             sleep(SLEEP_TIME);
             printf("Второй корень уравнения: %g\n", solutions[1]);
             sleep(SLEEP_TIME);
             break;
-        case ANY_ROOTS:
+        case STATES_ANY_ROOTS:
             printf("Любое число - решение уравнения\n");
             sleep(SLEEP_TIME);
             break;
@@ -112,7 +111,6 @@ void ai_moment() {
             printf("Это очень красивые коэффициенты)\n");
             sleep(SLEEP_TIME);
             break;
-        // TODO: maybe assert
         default:
             assert(0);
     }
@@ -120,7 +118,7 @@ void ai_moment() {
 
 void print_exact_solutions(States state, bool exact_status, Parameters square_parameters)
 {
-    if (state != TWO_ROOTS) {
+    if (state != STATES_TWO_ROOTS) {
                 print_solutions(state, square_parameters.roots);
     }
     else {
@@ -143,21 +141,15 @@ void print_exact_solutions(States state, bool exact_status, Parameters square_pa
 void user_greeting(Greeting mode)
 {
     switch(mode) {
-        case BEGINING:
+        case GREETING_BEGINING:
             printf("Наша программа работает в 3 режимах:\n");
             sleep(SLEEP_TIME);
             printf("Научном(1), учебном(2) и тренировочном(3), чтобы выбрать режим нажмите соответствующую клавишу\n");
             break;
-        case IN_MODE:
+        case GREETING_IN_MODE:
             printf("Введите коэффициенты в следующем формате:\n");
             sleep(SLEEP_TIME);
             printf("a b c\n");
-            break;
-        case TRAIN_MODE:
-            printf("Отлично, вы выбрали тренировочный режим\n");
-            printf("Сейчас я сгенерирую тест состоящий из 5 вопросов\n");
-            printf("Каждый вопрос будет улучшать ваш навык квадратных уравнений\n");
-            printf("x1 x2\n");
             break;
         default:
             assert(0 && "Unreachable");

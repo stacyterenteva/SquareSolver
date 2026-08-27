@@ -4,18 +4,17 @@
 // максимальное число корней
 const int AMT_ROOTS = 2;
 
-// TODO: rename ENUM_NAME_ENUM_MEMBER
 enum States {
-    NO_ROOTS,
-    ANY_ROOTS,
-    ONE_ROOT,
-    TWO_ROOTS
+    STATES_NO_ROOTS,
+    STATES_ANY_ROOTS,
+    STATES_ONE_ROOT,
+    STATES_TWO_ROOTS
 };
 
 enum Modes {
-    SCIENCE = 1,
-    HELPER,
-    TRAINER
+    MODES_SCIENCE = 1,
+    MODES_HELPER,
+    MODES_TRAINER
 };
 
 struct Parameters {

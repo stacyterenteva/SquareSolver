@@ -1,3 +1,4 @@
+//#define TX_COMPILED
 //#include <TXLib.h>
 #include <math.h>
 #include <stdio.h>
@@ -8,22 +9,21 @@
 #include "../solvers.h"
 
 struct test {
-    int coeffs[3];
+    double coeffs[3];
     States state;
     double roots[AMT_ROOTS];
 };
 
 test tests[] = {
-    {{0, 0, 0}, ANY_ROOTS, {NAN, NAN}},
-    {{0, 0, 1}, NO_ROOTS,  {NAN, NAN}},
-    {{0, 1, 2}, ONE_ROOT,  {2, NAN}},
-    {{1, 5, 6}, TWO_ROOTS, {-2, -3}},
-    {{1, 3, -7}, TWO_ROOTS, {(-3 + sqrt(37)) / (2), (-3 - sqrt(37)) / (2)}},
-    {{1, 1, 1}, NO_ROOTS,  {NAN, NAN}},
-    {{1, 2, 1}, ONE_ROOT,  {-1, NAN}}
+    {{0, 0, 0}, STATES_ANY_ROOTS,  {NAN, NAN}},
+    {{0, 1, 2}, STATES_ONE_ROOT,  {2, NAN}},
+    {{1, 5, 6}, STATES_TWO_ROOTS, {-2, -3}},
+    {{1, 3, -7}, STATES_TWO_ROOTS, {(-3 + sqrt(37)) / (2), (-3 - sqrt(37)) / (2)}},
+    {{1, 1, 1}, STATES_NO_ROOTS,  {NAN, NAN}},
+    {{1, 2, 1}, STATES_ONE_ROOT,  {-1, NAN}}
 };
 
-const int amt_tests = sizeof(tests) / sizeof(test);
+const int amt_tests = sizeof(tests) / sizeof(test);//TODO const caps
 
 int main()
 {
@@ -38,10 +38,10 @@ int main()
 
         if (!is_completed(test_parameters, test_number)) {
             printf("#%d не пройден\n", test_number + 1);
-            printf("Должны были получить: %.10g, %.10g, %d\n", tests[test_number].roots[0],
+            printf("Должны были получить: %.10g, %.10g, roots: %d\n", tests[test_number].roots[0],
                                                            tests[test_number].roots[1],
                                                            tests[test_number].state);
-            printf("Получили: %.10g, %.10g, %d\n", test_parameters.roots[0],
+            printf("Получили: %.10g, %.10g, roots: %d\n", test_parameters.roots[0],
                                                test_parameters.roots[1],
                                                solve_square_equation(&test_parameters));
         }
@@ -55,22 +55,18 @@ bool is_completed(Parameters test_parameters, int test_number)
 {
         States test_state = solve_square_equation(&test_parameters);
         switch(test_state) {
-            case ANY_ROOTS:
-            case NO_ROOTS:
-                return (test_state == tests[test_number].state) ? 1 : 0;
-                break;
-            case ONE_ROOT:
+            case STATES_ANY_ROOTS:
+            case STATES_NO_ROOTS:
+                return (test_state == tests[test_number].state);
+            case STATES_ONE_ROOT:
                 return (test_state == tests[test_number].state && is_equal(tests[test_number].roots[0], test_parameters.roots[0]));
-                break;
-            case TWO_ROOTS:
+            case STATES_TWO_ROOTS:
                 return (test_state == tests[test_number].state
                         && is_equal(tests[test_number].roots[0], test_parameters.roots[0])
                         && is_equal(tests[test_number].roots[1], test_parameters.roots[1]));
-                break;
             default:
-                return 0;
-                break;
+                assert(0);
         }
-        return 0;
+        assert(0);
 }
 

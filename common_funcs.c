@@ -1,3 +1,4 @@
+#define TX_COMPILED
 #include <TXLib.h>
 #include <math.h>
 #include <stdio.h>
@@ -5,7 +6,6 @@
 
 #include "common_funcs.h"
 
-const int SLEEP_TIME_FOR_SLOW_PRINT = 40;
 
 const double EPS = 1e-9;
 
@@ -21,15 +21,6 @@ void clean_buf()
     }
 }
 
-bool is_perfect_square(double n)
-{
-    if (n < 0) {
-        return false;
-    }
-    double sqrt_n = sqrt(n);
-    return is_equal(sqrt_n, (int) sqrt_n);
-}
-
 void slow_print(const char string[])
 {
     assert(string);
@@ -40,11 +31,14 @@ void slow_print(const char string[])
     }
 }
 
-void getline(char* string, int max_len)
+void getline(char* string, unsigned int max_len)
 {
-    int i = 0;
-    while (i < max_len && (c = getchar()) != '\n') {
-        string[i] = c;
+    assert(string);
+
+    unsigned int i = 0;
+    int c = '\0'; //NOTE Почему ворнинг и как происходит автоматическое изменение типа
+    while (i < max_len && (c = getchar()) != EOF && c != '\n') {
+        string[i] = (char)c;
         i++;
     }
 }
