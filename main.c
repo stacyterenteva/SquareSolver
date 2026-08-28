@@ -8,9 +8,12 @@
 #include "common_funcs.h"
 #include "trainer.h"
 
-
 int main()
 {
+    /*txWaveData_t kvadratka_music = txWaveLoadWav("trainer_fail_base/kvadratka_music.waw");
+        txWaveOut(kvadratka_music);*/
+
+
     Modes mode_flag = MODES_SCIENCE;
 
     Parameters square_parameters =

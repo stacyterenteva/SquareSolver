@@ -1,11 +1,12 @@
 #define TX_COMPILED
 #include <TXLib.h>
+#include <TXWave.h>
+
 #include <math.h>
 #include <stdio.h>
 #include <assert.h>
 
 #include "common_funcs.h"
-
 
 const double EPS = 1e-9;
 

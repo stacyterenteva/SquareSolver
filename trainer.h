@@ -1,6 +1,8 @@
 #ifndef TRAINER_H
 #define TRAINER_H
 
+//#define TX_COMPILED
+//#include <TXLib.h>
 #include <stdio.h>
 
 const int NUM_OF_QUESTIONS = 4;

@@ -1,7 +1,9 @@
-#define TX_COMPILED
+//#define TX_COMPILED
 #define YELLOW "\033[33m"
 #define RESET "\033[0m"
-#include <TXLib.h>
+
+#include <C:\TX\Examples\txWave\TXWave.h>
+//#include <TXLib.h>
 #include <stdio.h>
 #include <assert.h>
 #include <math.h>
@@ -37,11 +39,24 @@ void trainer_work()
     fscanf(files[LAST_QUESTION], "%lg", &boss.answer);
     fgetc(files[LAST_QUESTION]);
 
+    //txWaveData_t kvadratka_music = txWaveLoadWav("trainer_fail_base/kvadratka_music.wav");
+
+    //txWaveData_t migalka = txWaveLoadWav("trainer_fail_base/kvadratka_music.wav");
+
+    //txWaveOut(txWaveLoadWav("trainer_fail_base/kvadratka_music.wav"), 1);
+
     begin_game();
 
     char user_name[MAX_NAME_LEN] = {0}; //NOTE Что происходит при такой инициализации
 
     introducing_of_user(user_name);
+    /*
+    txWaveData_t kvadratka_music = txWaveLoadWav("trainer_fail_base/kvadratka_music.wav");
+
+    txWaveData_t migalka = txWaveLoadWav("trainer_fail_base/kvadratka_music.wav");
+
+    txWaveOut(1000, kvadratka_music);
+    */
 
     for (int k = 0; k < NUM_OF_QUESTIONS; k++) {
         trainer_asks(rand() % NUM_OF_TESTS, all_tests[k], &num_of_correct_answers);
@@ -71,7 +86,8 @@ void end_game(int num_of_correct_answers)
         printf("Вы ограбили банк, сегодня в тюрьму вас не посадят, но лучше завязывать\n");
     }
     else {
-        printf("Вы ошиблись и Костю с Иваном засекла система безопасности, *звуки мигалки*\n");
+        printf("Вы ошиблись и Костю с Иваном засекла система безопасности\n");
+        //txWaveOut(txWaveLoadWav("trainer_fail_base/mialka.wav"), 1);
     }
 }
 
@@ -134,25 +150,21 @@ void begin_game()
     // TODO: magic numbers
     slow_print("Вы входите в квартиру, адрес которой указан в помятой записке и слышите чьи-то голоса\n\n");
     txSleep(SHORT_SLEEP);
-    getchar();
-    printf("\x1b[A");
+    goto_next_phrase();
 
     slow_print(YELLOW "-Иван, это безумие, нельзя грабануть банк в центре Москвы и не попасться полиции\n");
     txSleep(SHORT_SLEEP);
-    getchar();
-    printf("\x1b[A");
-    // getchar();
 
     slow_print("-Кость, нас ловили хоть раз?\n");
     txSleep(SHORT_SLEEP);
-    // getchar();
+    goto_next_phrase();
 
     slow_print("-Нет, но...\n");
     txSleep(SHORT_SLEEP);
-    // getchar(); //для переключения диалогов любой клавишей
 
     slow_print("-Тем более мы наняли этого, как его..\n\n");
     slow_print(RESET "Вы входите в комнату откуда были слышны голоса\n\n");
+    goto_next_phrase();
 }
 
 //work in progress
@@ -162,11 +174,9 @@ void introducing_of_user(char* user_name)
 
     slow_print(YELLOW "-Вот, его мы наняли, напомни, как тебя зовут?\n\n");
     txSleep(SHORT_SLEEP);
-    // getchar();
 
     printf(RESET "Введите своё имя: ");
     txSleep(SHORT_SLEEP);
-    // getchar();
 
     getline(user_name, MAX_NAME_LEN);
 
@@ -177,7 +187,6 @@ void introducing_of_user(char* user_name)
     slow_print(temp);
     txSleep(SHORT_SLEEP);
     goto_next_phrase();
-    // getchar();
 
     temp[MAX_NUM_OF_CHARS] = {};
     snprintf(temp, sizeof(temp), "-%s, мы с Костей устроились пару месяцев назад в банк и сегодня проникнем в хранилище, а твоя задача расшифровать элементы пароля\n", user_name);
