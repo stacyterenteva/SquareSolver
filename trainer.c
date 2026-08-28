@@ -1,9 +1,9 @@
-//#define TX_COMPILED
+#define TX_COMPILED
 #define YELLOW "\033[33m"
 #define RESET "\033[0m"
 
 #include <C:\TX\Examples\txWave\TXWave.h>
-//#include <TXLib.h>
+#include <TXLib.h>
 #include <stdio.h>
 #include <assert.h>
 #include <math.h>
@@ -39,13 +39,11 @@ void trainer_work()
     fscanf(files[LAST_QUESTION], "%lg", &boss.answer);
     fgetc(files[LAST_QUESTION]);
 
-    //txWaveData_t kvadratka_music = txWaveLoadWav("trainer_fail_base/kvadratka_music.wav");
+    begin_game();
+
 
     //txWaveData_t migalka = txWaveLoadWav("trainer_fail_base/kvadratka_music.wav");
 
-    //txWaveOut(txWaveLoadWav("trainer_fail_base/kvadratka_music.wav"), 1);
-
-    begin_game();
 
     char user_name[MAX_NAME_LEN] = {0}; //NOTE Что происходит при такой инициализации
 
@@ -57,6 +55,8 @@ void trainer_work()
 
     txWaveOut(1000, kvadratka_music);
     */
+    txWaveData_t kvadratka_music = txWaveLoadWav("trainer_fail_base/converted2.wav");
+    txWaveOut(INT_MAX, 0, 50, -1, -1, 1, kvadratka_music);
 
     for (int k = 0; k < NUM_OF_QUESTIONS; k++) {
         trainer_asks(rand() % NUM_OF_TESTS, all_tests[k], &num_of_correct_answers);
@@ -87,7 +87,7 @@ void end_game(int num_of_correct_answers)
     }
     else {
         printf("Вы ошиблись и Костю с Иваном засекла система безопасности\n");
-        //txWaveOut(txWaveLoadWav("trainer_fail_base/mialka.wav"), 1);
+        txWaveOut(txWaveLoadWav("trainer_fail_base/kvadratka_music.wav"), 1);
     }
 }
 
@@ -239,6 +239,7 @@ void preboss_tekst(char* user_name)
 }
 
 void goto_next_phrase() {
+    clean_buf();
     getchar();
     printf("\x1b[A");
 }
